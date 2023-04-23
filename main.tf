@@ -10,7 +10,7 @@ resource "time_sleep" "avx_gw" {
 
 resource "time_sleep" "avx_gwha" {
   count = var.ha_enabled ? 1 : 0
-  create_duration   = "15m"
+  create_duration   = "12m"
 }
 
 data "alicloud_eip_addresses" "avx_gw" {
@@ -18,7 +18,7 @@ data "alicloud_eip_addresses" "avx_gw" {
     time_sleep.avx_gw
   ]
   status = "InUse"
-  name_regex = "Aviatrix-${var.gateway_name}-eip"
+  name_regex = var.gateway_name
 }
 
 data "alicloud_eip_addresses" "avx_gwha" {
@@ -27,7 +27,7 @@ data "alicloud_eip_addresses" "avx_gwha" {
     time_sleep.avx_gwha
   ]
   status = "InUse"
-  name_regex = "Aviatrix-${var.gateway_name}-ha-eip"
+  name_regex = "${var.gateway_name}-ha"
 }
 
 resource "azurerm_network_security_rule" "avx_controller_allow_gw" {
