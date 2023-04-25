@@ -7,9 +7,9 @@ output "gatewayha_address" {
 }
 
 output "gateway_eip_id" {
-  value = [for eip in data.alicloud_eip_addresses.avx_gw.addresses : eip.allocation_id]
+  value = join(",", [for eip in data.alicloud_eip_addresses.avx_gw.addresses : eip.id])
 }
 
 output "gatewayha_eip_id" {
-  value = var.ha_enabled ? [for eip in data.alicloud_eip_addresses.avx_gwha[0].addresses : eip.allocation_id] : null
+  value = var.ha_enabled ? join(",", [for eip in data.alicloud_eip_addresses.avx_gwha[0].addresses : eip.id]) : null
 }

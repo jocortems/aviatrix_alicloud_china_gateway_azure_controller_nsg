@@ -10,7 +10,7 @@ resource "time_sleep" "avx_gw" {
 
 resource "time_sleep" "avx_gwha" {
   count = var.ha_enabled ? 1 : 0
-  create_duration   = "12m"
+  create_duration   = "14m"
 }
 
 data "alicloud_eip_addresses" "avx_gw" {
