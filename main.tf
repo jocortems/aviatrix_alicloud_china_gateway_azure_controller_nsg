@@ -18,7 +18,7 @@ data "alicloud_eip_addresses" "avx_gw" {
     time_sleep.avx_gw
   ]
   status = "InUse"
-  name_regex = var.gateway_name
+  name_regex = "${var.gateway_name}-eip"
 }
 
 data "alicloud_eip_addresses" "avx_gwha" {
