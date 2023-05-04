@@ -3,11 +3,6 @@ variable "gateway_name" {
     description = "Name of the Aviatrix Gateway"
 }
 
-variable "gateway_region" {
-    type = string
-    description = "Alibaba Cloud Region Name"
-}
-
 variable "controller_nsg_name" {
     type = string
     description = "Name of the Network Security Group attached to the Aviatrix Controller Network Interface"  
@@ -34,15 +29,7 @@ variable "ha_enabled" {
     default = true
 }
 
-variable "controller_subscription_name" {
-  type = string
-  description = "Display Name of the Azure subscription where the Aviatrix Controller is created"
-  default = ""
-}
-
-locals {
-  controller_subscription_id = length(var.controller_subscription_name) > 0 ? [for subscription in data.azurerm_subscriptions.available.subscriptions : subscription.subscription_id if subscription.display_name == var.controller_subscription_name][0] : data.azurerm_subscription.current.subscription_id
-  controller_tenant_id = length(var.controller_subscription_name) > 0 ? [for subscription in data.azurerm_subscriptions.available.subscriptions : subscription.tenant_id if subscription.display_name == var.controller_subscription_name][0] : data.azurerm_subscription.current.tenant_id
+locals {  
   gateway_address = [for eip in data.alicloud_eip_addresses.avx_gw.addresses : eip.ip_address]
   gatewayha_address = var.ha_enabled ? [for eip in data.alicloud_eip_addresses.avx_gwha[0].addresses : eip.ip_address] : null
 }

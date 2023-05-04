@@ -1,19 +1,14 @@
-data "azurerm_subscriptions" "available" {
-}
-
-data "azurerm_subscription" "current" {
-}
-
 resource "time_sleep" "avx_gw" {
   create_duration   = "5m"
 }
 
 resource "time_sleep" "avx_gwha" {
   count = var.ha_enabled ? 1 : 0
-  create_duration   = "14m"
+  create_duration   = "11m"
 }
 
 data "alicloud_eip_addresses" "avx_gw" {
+  provider = alicloud.china
   depends_on = [
     time_sleep.avx_gw
   ]
@@ -22,6 +17,7 @@ data "alicloud_eip_addresses" "avx_gw" {
 }
 
 data "alicloud_eip_addresses" "avx_gwha" {
+  provider = alicloud.china
   count = var.ha_enabled ? 1 : 0
   depends_on = [
     time_sleep.avx_gwha
@@ -31,7 +27,6 @@ data "alicloud_eip_addresses" "avx_gwha" {
 }
 
 resource "azurerm_network_security_rule" "avx_controller_allow_gw" {
-  provider                    = azurerm.aviatrix-controller
   name                        = format("ali-avx-%s-gw", var.gateway_name)
   resource_group_name         = var.controller_nsg_resource_group_name
   network_security_group_name = var.controller_nsg_name
@@ -48,7 +43,6 @@ resource "azurerm_network_security_rule" "avx_controller_allow_gw" {
 
 resource "azurerm_network_security_rule" "avx_controller_allow_gwha" {
   count                       = var.ha_enabled ? 1 : 0
-  provider                    = azurerm.aviatrix-controller
   name                        = format("ali-avx-%s-gwha", var.gateway_name)
   resource_group_name         = var.controller_nsg_resource_group_name
   network_security_group_name = var.controller_nsg_name

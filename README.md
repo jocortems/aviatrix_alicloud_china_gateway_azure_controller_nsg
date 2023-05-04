@@ -68,11 +68,12 @@ export ARM_TENANT_ID="00000000-0000-0000-0000-000000000000"
 
 ### 2. Authenticating to AliCloud
 
-Set environment variables ALICLOUD_ACCESS_KEY and ALICLOUD_SECRET_KEY:
+Set environment variables ALICLOUD_ACCESS_KEY, ALICLOUD_SECRET_KEY and ALICLOUD_REGION:
 
   ``` shell
   export ALICLOUD_ACCESS_KEY="anaccesskey"
   export ALICLOUD_SECRET_KEY="asecretkey"
+  export ALICLOUD_REGION="cn-beijing"
   ```
 
 
@@ -85,11 +86,9 @@ Set environment variables ALICLOUD_ACCESS_KEY and ALICLOUD_SECRET_KEY:
 module "ali-gateway-nsg" {
   source                             = "github.com/jocortems/aviatrix_alicloud_china_gateway_azure_controller_nsg"
   gateway_name                       = "jcortes-gw"                   # Required. Must exactly match argument gw_name in the module below
-  gateway_region                     = "cn-beijing"                   # Required. AliCloud Region ID - https://www.alibabacloud.com/help/en/basics-for-beginners/latest/regions-and-zones
   controller_nsg_name                = "controllerha-nsg"             # Required. Name of the NSG associated with the Controller
   controller_nsg_resource_group_name = "jcortes-avtx-controller"      # Required. Name of the resource group where the NSG associated with the controller is deployed
   controller_nsg_rule_priority       = 301                            # Required. This number must be unique. Before running this module verify the priority number is available in the NSG associated with the Controller
-  controller_subscription_name       = "Windows Azure Enterprise"     # Optional. Defaults to the current subscription ID of the logged in user
   ha_enabled                         = true/false                     # Optiona. Defaults to true. Must match HA GW deployment in the module below
 }
 

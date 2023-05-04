@@ -7,18 +7,7 @@ terraform {
     alicloud = {
       source = "aliyun/alicloud"
       version = "~> 1.203.0"
+      configuration_aliases = [alicloud.china]
     }
 }
-}
-
-provider azurerm {
-    alias = "aviatrix-controller"
-    tenant_id = local.controller_tenant_id
-    subscription_id = local.controller_subscription_id
-    environment = "china"
-    features {}
-}
-
-provider "alicloud" {
-  region = var.gateway_region
 }
