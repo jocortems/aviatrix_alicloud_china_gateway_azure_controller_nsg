@@ -82,8 +82,15 @@ Set environment variables ALICLOUD_ACCESS_KEY, ALICLOUD_SECRET_KEY and ALICLOUD_
 > Note: Argument `gw_name` in this module **MUST** exactly match argument `gw_name` in the Aviatrix module or Aviatrix resource used to create the gateways; otherwise NSG rule creation will fail. Both modules must run in parallel at the same time; **DO NOT** reference outputs from Aviatrix module or attributes from Aviatrix resource used to create the gateways in this module, otherwise NSG rule creation will fail.
 
 ```hcl
+provider "alicloud" {
+  alias = china
+  // additional configuration here
+}
 
 module "ali-gateway-nsg" {
+  providers = {
+    alicloud.china = alicloud.china
+  }
   source                             = "github.com/jocortems/aviatrix_alicloud_china_gateway_azure_controller_nsg"
   gateway_name                       = "jcortes-gw"                   # Required. Must exactly match argument gw_name in the module below
   controller_nsg_name                = "controllerha-nsg"             # Required. Name of the NSG associated with the Controller
