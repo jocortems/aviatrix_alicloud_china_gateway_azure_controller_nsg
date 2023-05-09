@@ -3,7 +3,7 @@ output "gateway_address" {
 }
 
 output "gatewayha_address" {
-  value = local.gatewayha_address[0]
+  value = local.gatewayha_address
 }
 
 output "gateway_eip_id" {
