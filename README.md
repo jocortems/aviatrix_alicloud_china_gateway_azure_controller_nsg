@@ -79,7 +79,7 @@ Set environment variables ALICLOUD_ACCESS_KEY, ALICLOUD_SECRET_KEY and ALICLOUD_
 
 ### 3. Applying Terraform configuration
 
-> Note: Argument `gw_name` in this module **MUST** exactly match argument `gw_name` in the Aviatrix module or Aviatrix resource used to create the gateways; otherwise NSG rule creation will fail. Both modules must run in parallel at the same time; **DO NOT** reference outputs from Aviatrix module or attributes from Aviatrix resource used to create the gateways in this module, otherwise NSG rule creation will fail.
+> **IMPORTANT**: Argument `gw_name` in this module **MUST** exactly match argument `gw_name` in the Aviatrix module or Aviatrix resource used to create the gateways; otherwise NSG rule creation will fail. Both modules must run in parallel at the same time; **DO NOT** reference outputs from Aviatrix module or attributes from Aviatrix resource used to create the gateways in this module, otherwise NSG rule creation will fail. HA cannot be added afterwards; if HA is required it must be configured from the beginning. If flag ha_enabled was set to false during intial deployment and HA is required afterwads, terraform destroy must be run first, change the flag to true and redeploy, otherwise the HAGW won't complete provisioning before the controllers times out and rollsback the HAGW deployment, this is because Aviatrix doesn't support pre-assigning EIPs to Gateways deployed in AliCloud and this module uses a sleep timer resource to obtain the value of the IP addresses to add to the Azure Controller NSG
 
 ```hcl
 provider "alicloud" {
