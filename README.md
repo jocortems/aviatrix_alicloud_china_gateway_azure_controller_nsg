@@ -83,13 +83,19 @@ Set environment variables ALICLOUD_ACCESS_KEY, ALICLOUD_SECRET_KEY and ALICLOUD_
 
 ```hcl
 provider "alicloud" {
-  alias = china
+  alias = "china"
+  // additional configuration here
+}
+
+provider "azurerm" {
+  alias = "controller"
   // additional configuration here
 }
 
 module "ali-gateway-nsg" {
   providers = {
-    alicloud.china = alicloud.china
+    alicloud.china     = alicloud.china
+    azurerm.controller = azurerm.controller
   }
   source                             = "github.com/jocortems/aviatrix_alicloud_china_gateway_azure_controller_nsg"
   gateway_name                       = "jcortes-gw"                   # Required. Must exactly match argument gw_name in the module below
