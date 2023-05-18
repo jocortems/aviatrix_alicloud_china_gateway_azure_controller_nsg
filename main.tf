@@ -27,6 +27,7 @@ data "alicloud_eip_addresses" "avx_gwha" {
 }
 
 resource "azurerm_network_security_rule" "avx_controller_allow_gw" {
+  provider                    = azurerm.controller
   name                        = format("ali-avx-%s-gw", var.gateway_name)
   resource_group_name         = var.controller_nsg_resource_group_name
   network_security_group_name = var.controller_nsg_name
@@ -43,6 +44,7 @@ resource "azurerm_network_security_rule" "avx_controller_allow_gw" {
 
 resource "azurerm_network_security_rule" "avx_controller_allow_gwha" {
   count                       = var.ha_enabled ? 1 : 0
+  provider                    = azurerm.controller
   name                        = format("ali-avx-%s-gwha", var.gateway_name)
   resource_group_name         = var.controller_nsg_resource_group_name
   network_security_group_name = var.controller_nsg_name

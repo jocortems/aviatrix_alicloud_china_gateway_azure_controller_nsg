@@ -3,6 +3,7 @@ terraform {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "~> 3.52.0"
+      configuration_aliases = [azurerm.controller]
     }
     alicloud = {
       source = "aliyun/alicloud"
